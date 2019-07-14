@@ -19,6 +19,7 @@ class CoffeesController < ApplicationController
     end
 
     post '/coffees' do
+        # should this require a logged in user?
         if params[:roaster][:name] == ""
             if !params[:coffee][:roast] || !params[:coffee][:roaster_id]
                 redirect "/coffees/new"
@@ -37,11 +38,13 @@ class CoffeesController < ApplicationController
         end
 
         @coffee.save
+        # check whether save was succesful or not before claiming success
         flash[:message] = "You successfully posted a new Coffee!"
         redirect "/coffees/#{@coffee.roaster.slug}/#{@coffee.slug}"
     end
 
     get '/coffees/:roaster/:slug' do 
+        # i'm not familiar with sinatra, but rails has a way to avoid repeating the whole if logged_in? ... else redirect '/login' thing called before_filter...
         if logged_in?
             @roaster = Roaster.find_by_slug(params[:roaster])
             @coffee = @roaster.coffees.find_by_slug(params[:slug])

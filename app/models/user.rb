@@ -11,6 +11,9 @@ class User < ActiveRecord::Base
     end
     
     def self.find_by_slug(slug)
+        # you're not using this and a few other find_by_slugs,
+        # it's better to delete code that you're not using to make the rest of the code easier to read.
+        # You can always find the deleted code in the git history.
         self.all.find {|user| user.slug == slug}
     end
 

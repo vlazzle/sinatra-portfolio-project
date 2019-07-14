@@ -29,6 +29,7 @@ class ApplicationController < Sinatra::Base
         if user && user.authenticate(password)
           session[:user_id] = user.id
         else
+          # flash or something to let users know login failed
           redirect '/login'
         end
     end
